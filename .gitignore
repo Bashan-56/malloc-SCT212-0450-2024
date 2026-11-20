@@ -1,0 +1,16 @@
+
+# Executable files
+test_myalloc
+task1
+task2
+task3
+task4
+task5
+task6
+bench
+
+# Object files
+*.o
+
+# Other generated binaries
+*.out
