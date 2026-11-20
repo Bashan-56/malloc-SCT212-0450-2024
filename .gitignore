@@ -14,3 +14,4 @@ bench
 
 # Other generated binaries
 *.out
+test_alignment
