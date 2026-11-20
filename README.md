@@ -119,7 +119,24 @@ The allocator does not return memory to the operating system because it does not
 **6. Two blocks are consecutive in your list but not adjacent in memory. How did this happen, and what does your coalescing code do about it?**
 
 This can happen when separate `sbrk()` calls create memory regions with gaps between them, or when blocks are added to the list in separate heap-growth operations. The coalescing code checks the actual memory addresses of neighbouring blocks before merging them. It merges only physically adjacent free blocks and leaves blocks separated by gaps unchanged.
+## Benchmark Results
 
+The benchmark used 50,000 allocation and deallocation operations.
+
+| Allocation method | Execution time |
+|---|---:|
+| First-Fit | 0.207507 seconds |
+| Best-Fit | 0.241442 seconds |
+| Standard library malloc | 0.003066 seconds |
+
+| Measurement | First-Fit | Best-Fit |
+|---|---:|---:|
+| Total blocks | 929 | 822 |
+| Free blocks | 258 | 151 |
+| Largest free block | 14,880 | 56,720 |
+| Fragmentation | 88.38% | 56.50% |
+
+Best-Fit produced lower fragmentation, while First-Fit was faster. The standard library allocator completed the benchmark considerably faster than both custom allocation strategies.
 ## 8. Known Limitations
 
 - The allocator uses `sbrk()` and `brk()`, which are legacy interfaces.
